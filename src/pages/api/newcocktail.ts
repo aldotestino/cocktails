@@ -1,12 +1,18 @@
 import prisma from '../../lib/prisma';
 
+interface CocktailRaw {
+  name: string,
+  ingredients: string,
+  addedby: string
+}
+
 export default async (req, res) => {
-  const { name, ingredients, addedby } = req.body;
+  const { name, ingredients, addedby } : CocktailRaw = req.body;
 
   try {
     const newCocktail = await prisma.cocktail.create({ data: {
-      name: name.replaceAll(' ', '-'),
-      ingredients: ingredients.split(';'),
+      name: name.replaceAll(' ', '-').toLowerCase(),
+      ingredients: ingredients.toLowerCase().split(';'),
       addedby
     } });
   
