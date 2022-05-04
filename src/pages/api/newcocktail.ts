@@ -7,11 +7,12 @@ interface CocktailRaw {
 }
 
 export default async (req, res) => {
+  console.log(req.body);
   const { name, ingredients, addedby } : CocktailRaw = req.body;
 
   try {
     const newCocktail = await prisma.cocktail.create({ data: {
-      name: name.replaceAll(' ', '-').toLowerCase(),
+      name: name.toLowerCase().replaceAll(' ', '-'),
       ingredients: ingredients.toLowerCase().split(';'),
       addedby
     } });
