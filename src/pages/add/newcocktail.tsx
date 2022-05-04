@@ -14,11 +14,13 @@ function AddCocktailPage() {
     link: '',
     name: ''
   });
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   const toast = useToast();
 
   async function handleSubmit(values : CocktailRaw, { resetForm }) {
+    setLoading(true);
     const res = await fetch('/api/newcocktail', {
       method: 'POST',
       headers: {
@@ -27,6 +29,8 @@ function AddCocktailPage() {
       body: JSON.stringify(values)
     }).then(r => r.json());
 
+    setLoading(false);
+    
     if(res.error) {
       toast({
         title: 'Cocktail esistente',
@@ -77,7 +81,7 @@ function AddCocktailPage() {
             </FormControl>}
           </Field>
           
-          <Button type="submit">Aggiungi</Button>
+          <Button type="submit" isLoading={loading}>Aggiungi</Button>
         </VStack>
       </Form>
     </Formik> : 
