@@ -14,7 +14,7 @@ export default async (req, res) => {
     const newCocktail = await prisma.cocktail.create(
       { 
         data: {
-          name: name.toString().toLowerCase().replaceAll(' ', '-'),
+          name: name.toString().toLowerCase(),
           ingredients: ingredients.toLowerCase().split(';'),
           addedby
         } 
