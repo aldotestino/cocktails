@@ -1,15 +1,24 @@
 import { ArrowBackIcon } from '@chakra-ui/icons';
-import { Box, Button, Flex, FormControl, FormLabel, Heading, IconButton, Input, VStack, useToast } from '@chakra-ui/react';
+import { Box, Button, Flex, FormControl, FormLabel, Heading, IconButton, Input, VStack, useToast, Text } from '@chakra-ui/react';
 import { Form, Formik, Field } from 'formik';
 import { useRouter } from 'next/router';
+import { Link } from '@chakra-ui/react';
+import NextLink from 'next/link';
+import { useState } from 'react';
+import { CocktailRaw } from '../../types';
 
 function AddCocktailPage() {
 
+  const [added, setAdded] = useState({
+    state: false,
+    link: '',
+    name: ''
+  });
   const router = useRouter();
 
   const toast = useToast();
 
-  async function handleSubmit(values, { resetForm }) {
+  async function handleSubmit(values : CocktailRaw, { resetForm }) {
     const res = await fetch('/api/newcocktail', {
       method: 'POST',
       headers: {
@@ -19,12 +28,17 @@ function AddCocktailPage() {
     }).then(r => r.json());
 
     if(res.error) {
-      console.log(res.error);
       toast({
         title: 'Cocktail esistente',
         description: `Il cocktail "${values.name}" è già presente.`,
         status: 'error',
         position: 'top-right'
+      });
+    }else {
+      setAdded({
+        state: true,
+        link: `${document.location.origin}/${values.name.toLowerCase().replace(/ /g, '-')}`,
+        name: values.name,
       });
     }
 
@@ -36,7 +50,7 @@ function AddCocktailPage() {
       <IconButton onClick={() => router.back()} color="purple.500" mr={2} variant="unstyled" aria-label='go back' icon={<ArrowBackIcon w={6} h={6} />}></IconButton>
       <Heading size="2xl" textTransform='capitalize' color="purple.500">Aggiungi Cocktail</Heading>
     </Flex>
-    <Formik
+    {!added.state ? <Formik
       initialValues={{ name: '', ingredients: '', addedby: '' }}
       onSubmit={handleSubmit}
     >
@@ -66,7 +80,13 @@ function AddCocktailPage() {
           <Button type="submit">Aggiungi</Button>
         </VStack>
       </Form>
-    </Formik>
+    </Formik> : 
+      <Text fontSize="xl">
+        Ecco il tuo cocktail: <NextLink href={added.link} passHref>
+          <Link color="purple.500" textTransform="capitalize">{added.name}</Link>
+        </NextLink>
+      </Text>
+    }
   </Box>;
 }
 
