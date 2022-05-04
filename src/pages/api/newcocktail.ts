@@ -11,11 +11,15 @@ export default async (req, res) => {
   const { name, ingredients, addedby } : CocktailRaw = req.body;
 
   try {
-    const newCocktail = await prisma.cocktail.create({ data: {
-      name: name.toLowerCase().replaceAll(' ', '-'),
-      ingredients: ingredients.toLowerCase().split(';'),
-      addedby
-    } });
+    const newCocktail = await prisma.cocktail.create(
+      { 
+        data: {
+          name: name.toString().toLowerCase().replaceAll(' ', '-'),
+          ingredients: ingredients.toLowerCase().split(';'),
+          addedby
+        } 
+      }
+    );
   
     res.status(200).json(newCocktail);
   }catch(e) {
