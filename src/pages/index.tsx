@@ -29,6 +29,10 @@ function Home({ cocktails }: HomeProps) {
     router.push(`/${c}`);
   }
 
+  function addCocktailHandler() {
+    router.push('/add/newcocktail');
+  }
+
   return (
     <>
       { isDesktop ?
@@ -37,12 +41,14 @@ function Home({ cocktails }: HomeProps) {
           <VStack spacing={6} width="100%">
             <Heading size="4xl" color="purple.500">Coktails</Heading>
             <Button colorScheme="purple" onClick={randomCocktail} >Random Cocktail</Button>
+            <Button colorScheme="purple" onClick={addCocktailHandler} >Aggiungi Cocktail</Button>
           </VStack>
         </HStack>
         : 
         <VStack minH="100vh" spacing={6} pt={40} backgroundSize='cover' backgroundRepeat='no-repeat' bgImage={bgImage}>
           <Heading size="4xl" color="purple.500">Coktails</Heading>
           <Button colorScheme="purple" onClick={randomCocktail} >Random Cocktail</Button>
+          <Button colorScheme="purple" onClick={addCocktailHandler} >Aggiungi Cocktail</Button>
         </VStack>
       }
     </>
@@ -58,8 +64,6 @@ export const getServerSideProps: GetServerSideProps = async () => {
   });
 
   const cocktailNames = cocktails.map(c => c.name);
-
-  console.log(cocktailNames);
   
   return {
     props: {
