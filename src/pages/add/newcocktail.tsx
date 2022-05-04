@@ -19,6 +19,7 @@ function AddCocktailPage() {
     }).then(r => r.json());
 
     if(res.error) {
+      console.log(res.error);
       toast({
         title: 'Cocktail esistente',
         description: `Il cocktail "${values.name}" è già presente.`,
