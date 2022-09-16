@@ -14,5 +14,5 @@ model Cocktail {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
   name        String   @unique
   ingredients String[]
-  addedby     String?
+  addedBy     String?
 }

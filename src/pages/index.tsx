@@ -1,57 +1,45 @@
-import { Heading, Button, useMediaQuery, VStack, HStack, Image } from '@chakra-ui/react';
+import { Heading, Button, Text, VStack, HStack, Image, Flex, useMediaQuery } from '@chakra-ui/react';
 import { GetServerSideProps } from 'next';
-import { useRouter } from 'next/router';
-import { useState } from 'react';
-import prisma from '../lib/prisma';
+import NextLink from 'next/link';
+import { prisma } from '../common/prisma';
+import { getRandomImage } from '../common/vars';
+import Layout from '../components/Layout';
 
 interface HomeProps {
-  cocktails: string[]
+  cocktails: string[],
+  image: string
 }
 
-const BACKGROUND_IMAGES = [
-  'https://images.unsplash.com/photo-1609951651556-5334e2706168?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80',
-  'https://images.unsplash.com/photo-1563223771-5fe4038fbfc9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80',
-  'https://images.unsplash.com/photo-1592858167090-2473780d894d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80',
-  'https://images.unsplash.com/photo-1592858321831-dabeabc2dd65?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80',
-  'https://images.unsplash.com/photo-1618799805265-4f27cb61ede9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80',
-  'https://images.unsplash.com/photo-1626688445658-c948f32d68ba?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80'
-];
+function Home({ cocktails, image }: HomeProps) {
 
-function Home({ cocktails }: HomeProps) {
-
-  const [isDesktop] = useMediaQuery('(min-width: 1000px)');
-  const [bgImage] = useState(BACKGROUND_IMAGES[Math.floor(Math.random()*BACKGROUND_IMAGES.length)]);
-
-  const router = useRouter();
-  
+  const [isLargerThan1280] = useMediaQuery('(min-width: 1280px)');
+    
   function randomCocktail() {
-    const c = cocktails[Math.floor(Math.random()*cocktails.length)];
-    router.push(`/${c}`);
-  }
-
-  function addCocktailHandler() {
-    router.push('/add/newcocktail');
+    if(cocktails) {
+      return cocktails[Math.floor(Math.random()*cocktails.length)];
+    }
   }
 
   return (
-    <>
-      { isDesktop ?
-        <HStack>
-          <Image src={bgImage} h="100vh"></Image>
-          <VStack spacing={6} width="100%">
-            <Heading size="4xl" color="purple.500">Coktails</Heading>
-            <Button colorScheme="purple" onClick={randomCocktail} >Random Cocktail</Button>
-            <Button colorScheme="purple" onClick={addCocktailHandler} >Aggiungi Cocktail</Button>
-          </VStack>
-        </HStack>
-        : 
-        <VStack minH="100vh" spacing={6} pt={40} backgroundSize='cover' backgroundRepeat='no-repeat' bgImage={bgImage}>
-          <Heading size="4xl" color="purple.500">Coktails</Heading>
-          <Button colorScheme="purple" onClick={randomCocktail} >Random Cocktail</Button>
-          <Button colorScheme="purple" onClick={addCocktailHandler} >Aggiungi Cocktail</Button>
+    <Layout>
+      <HStack w="full" justify="space-between">
+        <VStack align="start" spacing={4}>
+          <Heading size="3xl" color="purple.500">Cocktails</Heading>
+          <Text fontSize="xl">Il posto giusto per la scelta del tuo cocktail per una serata perfetta</Text>
+          <HStack spacing={4}>
+            <NextLink href={`/cocktail/${randomCocktail()}`} passHref>
+              <Button colorScheme="purple" as="a">Random</Button>
+            </NextLink>
+            <NextLink href="/add" passHref>
+              <Button colorScheme="purple" variant="outline" as="a">Crea cocktail</Button>
+            </NextLink>
+          </HStack>
         </VStack>
-      }
-    </>
+        {isLargerThan1280 && <Flex flex={1} align="center" justify="center">
+          <Image src={image} h="md" borderRadius="2xl" boxShadow="md" />
+        </Flex>}
+      </HStack>
+    </Layout>
   );
 }
 
@@ -64,10 +52,13 @@ export const getServerSideProps: GetServerSideProps = async () => {
   });
 
   const cocktailNames = cocktails.map(c => c.name);
+
+  console.log(cocktailNames);
   
   return {
     props: {
-      cocktails: cocktailNames
+      cocktails: cocktailNames,
+      image: getRandomImage()
     }
   };
 };
