@@ -48,8 +48,8 @@ function SigninPage() {
             <Form>
               <VStack spacing={5} background={['transparent', 'transparent', 'white']} py={[0, 0, 5]} borderRadius="lg" boxShadow={['none', 'none', 'md']}>
                 <VStack spacing={2} px={[0, 0, 5]} w="full">
-                  <TextField name="email" isInvalid={Boolean(errors.email && touched.email)} errorMessage={errors.email} label="Email" placeholder="aldo.testino@libero.it" />
-                  <TextField name="username" isInvalid={Boolean(errors.username && touched.username)} errorMessage={errors.username} label="Username" placeholder="aldotestino4" />
+                  <TextField name="email" isInvalid={Boolean(errors.email && touched.email)} errorMessage={errors.email} label="Email" placeholder="jason@gmail.com" />
+                  <TextField name="username" isInvalid={Boolean(errors.username && touched.username)} errorMessage={errors.username} label="Username" placeholder="jason" />
                   <TextField type="password" name="password" isInvalid={Boolean(errors.password && touched.password)} errorMessage={errors.password} label="Password" placeholder="******" />
                 </VStack>
                 <Divider />

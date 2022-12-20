@@ -21,9 +21,7 @@ function SigninPage() {
 
   async function onSubmit(values: SigninSchema, { resetForm }: FormikHelpers<SigninSchema>) {
     setIsLoading(true);
-    const res = await signIn('credentials', { ...values, redirect: false });
-    console.log(res);
-    
+    const res = await signIn('credentials', { ...values, redirect: false });s;
     if(res?.error) {
       toast({
         title: 'Si è verificato un errore',
@@ -54,7 +52,7 @@ function SigninPage() {
             <Form>
               <VStack spacing={5} background={['transparent', 'transparent', 'white']} py={[0, 0, 5]} borderRadius="lg" boxShadow={['none', 'none', 'md']}>
                 <VStack spacing={2} px={[0, 0, 5]} w="full">
-                  <TextField name="username" isInvalid={Boolean(errors.username && touched.username)} errorMessage={errors.username} label="Username" placeholder="aldotestino4" />
+                  <TextField name="username" isInvalid={Boolean(errors.username && touched.username)} errorMessage={errors.username} label="Username" placeholder="jason" />
                   <TextField type="password" name="password" isInvalid={Boolean(errors.password && touched.password)} errorMessage={errors.password} label="Password" placeholder="******" />
                 </VStack>
                 <Divider />

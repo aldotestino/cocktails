@@ -16,7 +16,6 @@ function Navbar() {
             <MenuButton cursor="pointer" as={Avatar} src={`https://avatars.dicebear.com/api/avataaars/${data.user?.name}.svg`} />
             <MenuList>
               <MenuItem onClick={() => Router.push('/mycocktails')}>My cocktails</MenuItem>
-              <MenuItem onClick={() => Router.push('/profile')}>Delete profile</MenuItem>
               <MenuDivider />
               <MenuItem color="red.500" onClick={() => signOut()}>Logout</MenuItem>
             </MenuList>
