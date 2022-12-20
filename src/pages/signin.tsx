@@ -21,7 +21,7 @@ function SigninPage() {
 
   async function onSubmit(values: SigninSchema, { resetForm }: FormikHelpers<SigninSchema>) {
     setIsLoading(true);
-    const res = await signIn('credentials', { ...values, redirect: false });s;
+    const res = await signIn('credentials', { ...values, redirect: false });
     if(res?.error) {
       toast({
         title: 'Si è verificato un errore',
