@@ -1,5 +1,6 @@
-import { Box, Stack } from '@chakra-ui/react';
+import { Box, VStack } from '@chakra-ui/react';
 import { ReactNode } from 'react';
+import Navbar from './Navbar';
 
 interface LayoutProps {
   children: ReactNode
@@ -7,10 +8,11 @@ interface LayoutProps {
 
 function Layout({ children }: LayoutProps) {
   return (
-    <Box background="gray.50" px={[2, 4, 10]}>
-      <Stack direction={['column', 'column', 'row']} minH="100vh" w="full" maxW="container.xl" mx="auto" align="center" justify={['center', 'center', 'start']}>
+    <Box background="gray.50" minH="100vh" px={[2, 4, 10]}>
+      <VStack spacing={10} w="full" maxW="container.xl" mx="auto">
+        <Navbar />
         {children}
-      </Stack>
+      </VStack>
     </Box>
   );
 }

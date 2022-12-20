@@ -1,13 +1,20 @@
 import { ChakraProvider } from '@chakra-ui/react';
-import { AppProps } from 'next/app';
+import type { AppProps } from 'next/app';
 import { withTRPC } from '@trpc/next';
 import { ServerRouter } from '../server/router';
+import { SessionProvider } from 'next-auth/react';
+import { Session } from 'next-auth';
+import Layout from '../components/Layout';
 
-function App({ Component, pageProps }: AppProps) {
+function App({ Component, pageProps }: AppProps<{session: Session}>) {
   return (
-    <ChakraProvider>
-      <Component {...pageProps} />
-    </ChakraProvider>
+    <SessionProvider session={pageProps.session}>
+      <ChakraProvider>
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </ChakraProvider>
+    </SessionProvider>
   );
 }
 

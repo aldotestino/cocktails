@@ -10,6 +10,7 @@
     "prisma:studio": "prisma studio"
   },
   "dependencies": {
+    "@chakra-ui/icon": "^3.0.13",
     "@chakra-ui/icons": "^2.0.9",
     "@chakra-ui/react": "^2.3.2",
     "@emotion/react": "^11.9.0",
@@ -19,10 +20,12 @@
     "@trpc/next": "^9.27.2",
     "@trpc/react": "^9.27.2",
     "@trpc/server": "^9.27.2",
+    "argon2": "^0.30.2",
     "chakra-react-select": "^4.2.2",
     "formik": "^2.2.9",
     "framer-motion": "^7.3.5",
     "next": "12.3.0",
+    "next-auth": "^4.18.6",
     "prisma": "^4.3.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",

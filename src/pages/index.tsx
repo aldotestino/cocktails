@@ -3,7 +3,6 @@ import { GetServerSideProps } from 'next';
 import NextLink from 'next/link';
 import { prisma } from '../common/prisma';
 import { getRandomImage } from '../common/vars';
-import Layout from '../components/Layout';
 
 interface HomeProps {
   cocktails: string[],
@@ -21,25 +20,23 @@ function Home({ cocktails, image }: HomeProps) {
   }
 
   return (
-    <Layout>
-      <HStack w="full" justify="space-between">
-        <VStack align="start" spacing={4}>
-          <Heading size="3xl" color="purple.500">Cocktails</Heading>
-          <Text fontSize="xl">Il posto giusto per la scelta del tuo cocktail per una serata perfetta</Text>
-          <HStack spacing={4}>
-            <NextLink href={`/cocktail/${randomCocktail()}`} passHref>
-              <Button colorScheme="purple" as="a">Random</Button>
-            </NextLink>
-            <NextLink href="/add" passHref>
-              <Button colorScheme="purple" variant="outline" as="a">Crea cocktail</Button>
-            </NextLink>
-          </HStack>
-        </VStack>
-        {isLargerThan1280 && <Flex flex={1} align="center" justify="center">
-          <Image src={image} h="md" borderRadius="2xl" boxShadow="md" />
-        </Flex>}
-      </HStack>
-    </Layout>
+    <HStack w="full" justify="space-between">
+      <VStack align="start" spacing={4}>
+        <Heading size="3xl" color="purple.500">Cocktails</Heading>
+        <Text fontSize="xl">Il posto giusto per la scelta del tuo cocktail per una serata perfetta</Text>
+        <HStack spacing={4}>
+          {cocktails?.length > 0 && <NextLink href={`/cocktail/${randomCocktail()}`} passHref>
+            <Button colorScheme="purple" as="a">Random</Button>
+          </NextLink>}
+          <NextLink href="/add" passHref>
+            <Button colorScheme="purple" variant="outline" as="a">Crea cocktail</Button>
+          </NextLink>
+        </HStack>
+      </VStack>
+      {isLargerThan1280 && <Flex flex={1} align="center" justify="center">
+        <Image src={image} h="md" borderRadius="2xl" boxShadow="md" />
+      </Flex>}
+    </HStack>
   );
 }
 
@@ -52,8 +49,6 @@ export const getServerSideProps: GetServerSideProps = async () => {
   });
 
   const cocktailNames = cocktails.map(c => c.name);
-
-  console.log(cocktailNames);
   
   return {
     props: {
